@@ -1,22 +1,15 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata, Viewport } from "next";
-import { Nunito } from "next/font/google";
-
-import { ExitModal } from "@/components/modals/exit-modal";
-import { HeartsModal } from "@/components/modals/hearts-modal";
-import { PracticeModal } from "@/components/modals/practice-modal";
-import { Toaster } from "@/components/ui/sonner";
-import { siteConfig } from "@/config";
 
 import "./globals.css";
 
-const font = Nunito({ subsets: ["latin"] });
-
 export const viewport: Viewport = {
-  themeColor: "#22C55E",
+  themeColor: "#171717",
 };
 
-export const metadata: Metadata = siteConfig;
+export const metadata: Metadata = {
+  title: "VODS MEME | Internet English",
+  description: "Learn the English the internet actually uses.",
+};
 
 export default function RootLayout({
   children,
@@ -24,27 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        options: {
-          logoImageUrl: "/favicon.ico",
-        },
-        variables: {
-          colorPrimary: "#22C55E",
-        },
-      }}
-      telemetry={false}
-      afterSignOutUrl="/"
-    >
-      <html lang="en">
-        <body className={font.className}>
-          <Toaster theme="light" richColors closeButton />
-          <ExitModal />
-          <HeartsModal />
-          <PracticeModal />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="th">
+      <body>{children}</body>
+    </html>
   );
 }

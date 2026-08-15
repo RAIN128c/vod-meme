@@ -1,50 +1,12 @@
 import type { Metadata } from "next";
 
 export const siteConfig: Metadata = {
-  title: "Lingo",
-  description:
-    "Interactive platform for language learning with lessons, quizzes, and progress tracking.",
-  keywords: [
-    "reactjs",
-    "nextjs",
-    "vercel",
-    "react",
-    "duolingo-clone",
-    "learn-language",
-    "shadcn",
-    "shadcn-ui",
-    "radix-ui",
-    "cn",
-    "clsx",
-    "lingo",
-    "postgresql",
-    "sonner",
-    "drizzle",
-    "zustand",
-    "mysql",
-    "lucide-react",
-    "clerk-themes",
-    "clerk",
-    "postcss",
-    "prettier",
-    "react-dom",
-    "tailwindcss",
-    "tailwindcss-animate",
-    "ui/ux",
-    "js",
-    "javascript",
-    "typescript",
-    "eslint",
-    "html",
-    "css",
-  ] as Array<string>,
-  authors: {
-    name: "Sanidhya Kumar Verma",
-    url: "https://github.com/sanidhyy",
-  },
-} as const;
+  title: "VODS MEME | Internet English",
+  description: "Learn Internet English through memes, slang, and context.",
+};
 
 export const links = {
+  upstream: "https://github.com/sanidhyy/duolingo-clone",
   sourceCode: "https://github.com/sanidhyy/duolingo-clone",
-  email: "sanidhya.verma12345@gmail.com",
-} as const;
+  email: "hello@vodsmeme.example",
+};
