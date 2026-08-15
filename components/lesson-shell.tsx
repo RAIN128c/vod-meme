@@ -2,7 +2,7 @@
 
 import { ArrowLeft, Brain, Sparkles, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ChallengeRenderer, CheckLabel } from "@/components/challenge-renderer";
 import { FeedbackPanel } from "@/components/feedback-panel";
@@ -26,6 +26,7 @@ export function LessonShell({ unit }: LessonShellProps) {
   const [status, setStatus] = useState<"ready" | "correct" | "wrong">("ready");
   const [rewardGranted, setRewardGranted] = useState(false);
   const [showCompletion, setShowCompletion] = useState(false);
+  const playSound = useLessonSound();
 
   const activeChallenge = answeredChallengeId
     ? unit.challenges.find((challenge) => challenge.id === answeredChallengeId)
@@ -51,10 +52,12 @@ export function LessonShell({ unit }: LessonShellProps) {
     const selected = activeChallenge.options.find((option) => option.id === selectedOptionId);
     setAnsweredChallengeId(activeChallenge.id);
     if (selected?.correct) {
+      playSound("correct");
       setRewardGranted(awardChallenge(activeChallenge.id, activeChallenge.auraReward, activeChallenge.braincellCost));
       setStatus("correct");
       return;
     }
+    playSound("wrong");
     setStatus("wrong");
   };
 
@@ -89,9 +92,37 @@ export function LessonShell({ unit }: LessonShellProps) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[840px] px-5 pb-14 pt-12 sm:px-8 lg:pt-16"><ChallengeRenderer challenge={activeChallenge} selectedOptionId={selectedOptionId} status={status} onSelect={setSelectedOptionId} />{status === "ready" ? <button type="button" disabled={!selectedOptionId} onClick={onCheck} className="soft-button mt-9 w-full"><CheckLabel /></button> : <FeedbackPanel challenge={activeChallenge} status={status} rewardGranted={rewardGranted} onContinue={onContinue} />}</main>
+      <main className="mx-auto max-w-[840px] px-5 pb-14 pt-12 sm:px-8 lg:pt-16">{status === "ready" ? <><ChallengeRenderer challenge={activeChallenge} selectedOptionId={selectedOptionId} status={status} onSelect={(optionId) => { setSelectedOptionId(optionId); playSound("select"); }} /><button type="button" disabled={!selectedOptionId} onClick={onCheck} className="soft-button lesson-check-button mt-9 w-full"><CheckLabel /></button></> : <FeedbackPanel challenge={activeChallenge} status={status} rewardGranted={rewardGranted} onContinue={onContinue} />}</main>
     </div>
   );
+}
+
+type LessonSound = "select" | "correct" | "wrong";
+
+function useLessonSound() {
+  const contextRef = useRef<AudioContext | null>(null);
+
+  return (sound: LessonSound) => {
+    if (typeof window === "undefined") return;
+    const context = contextRef.current ?? new AudioContext();
+    contextRef.current = context;
+    if (context.state === "suspended") void context.resume();
+
+    const notes = sound === "correct" ? [523, 659] : sound === "wrong" ? [220, 174] : [392];
+    const now = context.currentTime;
+    notes.forEach((frequency, index) => {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      const start = now + index * 0.075;
+      oscillator.type = sound === "wrong" ? "triangle" : "sine";
+      oscillator.frequency.setValueAtTime(frequency, start);
+      gain.gain.setValueAtTime(sound === "select" ? 0.025 : 0.045, start);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.12);
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start(start);
+      oscillator.stop(start + 0.13);
+    });
+  };
 }
 
 function CompletionGate({ unit }: { unit: LearningUnit }) {

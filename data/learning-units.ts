@@ -19,6 +19,10 @@ export type Challenge = {
   context: string;
   leftExpression?: string;
   rightExpression?: string;
+  voiceoverSrc?: string;
+  voiceoverWordStarts?: number[];
+  voiceoverTypingAt?: number;
+  voiceoverReplyAt?: number;
   options: ChallengeOption[];
   explanation: {
     answer: string;
@@ -102,7 +106,14 @@ export const learningUnits: LearningUnit[] = [
     ],
     order: 1,
     challenges: [
-      challenge("cook-1", "MEME_CONTEXT", "GROUP CHAT", "A friend shares a first-game video with the highest score. Someone replies: 'bro cooked.'", "What does the reply mean?", "They performed impressively.", "They prepared food.", "They made a mistake.", "As a verb, 'cooked' can praise an excellent performance.", "cooked ในที่นี้เป็นคำชมว่าเขาทำได้โหดมาก"),
+      {
+        ...challenge("cook-1", "MEME_CONTEXT", "GROUP CHAT", "A friend shares a first-game video with the highest score. Someone replies: 'bro cooked 🔥'", "What does the reply mean?", "They performed impressively.", "They prepared food.", "They made a mistake.", "As a verb, 'cooked' can praise an excellent performance.", "cooked ในที่นี้เป็นคำชมว่าเขาทำได้โหดมาก"),
+        voiceoverSrc: "/audio/cook-1-scene.mp3",
+        // ponytail: hand-tuned for this clip; use forced alignment only if the catalog grows.
+        voiceoverWordStarts: [0.42, 0.59, 0.91, 1.16, 1.3, 1.76, 2.11, 2.29, 2.48, 2.94, 3.3, 3.72],
+        voiceoverTypingAt: 4.05,
+        voiceoverReplyAt: 4.58,
+      },
       challenge("cook-2", "MEME_CONTEXT", "EXAM WEEK", "You have an exam tomorrow, did not study, and lost your notes. Your friend says: 'you are cooked.'", "What is the friend predicting?", "You are in serious trouble.", "You studied perfectly.", "You should make dinner.", "'Be cooked' describes someone facing a terrible outcome.", "be cooked = งานเข้า / หมดทางรอดในสถานการณ์นั้น"),
       challenge("cook-3", "CONTRAST", "SAME WORD, NEW STRUCTURE", "Watch whether 'cooked' is the action or describes the person's situation.", "Which reading matches both lines?", "Left: praise. Right: he is in trouble.", "Both mean he made food.", "Left: trouble. Right: praise.", "'He cooked' praises an action; 'he is cooked' describes a bad position.", "เติม is แล้วความหมายเปลี่ยนจากชมเป็นงานเข้า", { left: "He cooked.", right: "He's cooked." }),
       challenge("cook-4", "USE_CASE", "FRIEND'S PRESENTATION", "Your friend nailed a difficult presentation and everyone applauded.", "Pick the most natural reply.", "You cooked. That was clean.", "You are cooked. Congrats.", "Please cook the presentation again.", "A strong result calls for the praise form.", "ใช้ cook ชมเวลามีคนทำอะไรออกมาดีมาก"),
