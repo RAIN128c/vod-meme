@@ -14,7 +14,7 @@ export function AppShell({ children }: PropsWithChildren) {
 
   return (
     <div className="paper-grid min-h-screen lg:grid lg:grid-cols-[240px_minmax(0,1fr)]">
-      <aside className="flex border-b border-[#ded7cb] bg-[rgba(255,253,248,.86)] px-5 py-5 lg:min-h-screen lg:flex-col lg:border-b-0 lg:border-r lg:px-7 lg:py-9">
+      <aside className="flex border-b border-[#ded7cb] bg-[rgba(255,253,248,.86)] px-5 py-5 lg:sticky lg:top-0 lg:h-screen lg:flex-col lg:border-b-0 lg:border-r lg:px-7 lg:py-9">
         <Link href="/learn" className="brand-wordmark" aria-label="วอดส์ MEME, ไปยังหน้าบทเรียน">
           <span>วอดส์ <Sparkles className="inline-block h-4 w-4 text-[#b8f500]" aria-hidden="true" /></span>
           <span>MEME</span>
@@ -37,9 +37,9 @@ export function AppShell({ children }: PropsWithChildren) {
           })}
         </nav>
 
-        <div className="paper-note mt-auto hidden p-4 lg:block">
-          <p className="text-xs font-black tracking-[.1em] text-[#7447f5]">CONTEXT FIRST.</p>
-          <p className="mt-2 text-sm leading-6 text-[#746f67]">Read the room before you reuse the phrase.</p>
+        <div className="paper-note mt-auto hidden -rotate-2 p-4 lg:block">
+          <p className="display-font text-xl leading-none text-[#211f1b]">LEARN MEMES.</p>
+          <p className="mt-2 text-sm font-black leading-5 text-[#7447f5]">SPEAK INTERNET.<br />UNLOCK AURA.</p>
         </div>
       </aside>
       <main className="min-w-0 px-5 py-8 sm:px-8 lg:px-12 lg:py-12">{children}</main>
