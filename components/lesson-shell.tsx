@@ -1,7 +1,10 @@
 "use client";
 
 import { ArrowLeft, Brain, Sparkles, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 import { useEffect, useRef, useState } from "react";
 
 import { ChallengeRenderer, CheckLabel } from "@/components/challenge-renderer";
@@ -139,5 +142,12 @@ function LockedLesson() {
 }
 
 function Completion({ unit, aura, rank }: { unit: LearningUnit; aura: number; rank: string }) {
-  return <div className="paper-grid flex min-h-screen items-center justify-center px-5 py-10"><section className="torn-paper w-full max-w-xl p-8 text-center sm:p-11"><div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#eee7ff] text-[#7447f5]"><Sparkles className="h-8 w-8" aria-hidden="true" /></div><span className="marker-label mt-6">COLLECTIBLE POSTER UNLOCKED</span><h1 className="display-font mt-6 text-6xl leading-none sm:text-7xl">MASTERED</h1><p className="mt-3 text-xl font-black">{unit.title}</p><p className="mx-auto mt-5 max-w-sm leading-7 text-[#746f67]">You can now read this expression for meaning, tone, and context.</p><div className="mt-8 grid grid-cols-2 gap-4 border-y border-[#ded7cb] py-5 text-left"><div><p className="text-[10px] font-black tracking-[.14em] text-[#746f67]">TOTAL AURA</p><p className="display-font mt-2 text-3xl text-[#7447f5]">{aura}</p></div><div><p className="text-[10px] font-black tracking-[.14em] text-[#746f67]">MEME RANK</p><p className="display-font mt-2 text-2xl">{rank}</p></div></div><Link href="/learn" className="soft-button mt-8 px-6">CONTINUE PATH <ArrowLeft className="h-4 w-4 rotate-180" aria-hidden="true" /></Link></section></div>;
+  return <div className="paper-grid relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-10"><CompletionConfetti /><section className="torn-paper relative w-full max-w-xl p-8 text-center sm:p-11"><div className="mx-auto flex h-24 max-w-[240px] items-end justify-center gap-2"><Image src={`/assets/units/${unit.id}.png`} alt="" width={118} height={158} className="h-20 w-auto object-contain" /><Image src="/assets/mascot/celebrate.png" alt="" width={140} height={154} className="h-24 w-auto object-contain" /></div><span className="marker-label mt-6">COLLECTIBLE POSTER UNLOCKED</span><h1 className="display-font mt-6 text-6xl leading-none sm:text-7xl">MASTERED</h1><p className="mt-3 text-xl font-black">{unit.title}</p><p className="mx-auto mt-5 max-w-sm leading-7 text-[#746f67]">You can now read this expression for meaning, tone, and context.</p><div className="mt-8 grid grid-cols-2 gap-4 border-y border-[#ded7cb] py-5 text-left"><div><p className="text-[10px] font-black tracking-[.14em] text-[#746f67]">TOTAL AURA</p><p className="display-font mt-2 text-3xl text-[#7447f5]">{aura}</p></div><div><p className="text-[10px] font-black tracking-[.14em] text-[#746f67]">MEME RANK</p><div className="mt-2 flex items-center gap-2"><p className="display-font text-2xl">{rank}</p>{rank === "NORMIE" && <Image src="/assets/rank/normie.png" alt="Normie rank badge" width={104} height={118} className="h-10 w-auto" />}</div></div></div><Link href="/learn" className="soft-button mt-8 px-6">CONTINUE PATH <ArrowLeft className="h-4 w-4 rotate-180" aria-hidden="true" /></Link></section></div>;
+}
+
+function CompletionConfetti() {
+  const { width, height } = useWindowSize();
+  if (!width || !height) return null;
+
+  return <Confetti className="pointer-events-none" width={width} height={height} recycle={false} numberOfPieces={180} tweenDuration={5500} gravity={0.18} colors={["#b8f500", "#7447f5", "#f43f8f", "#2984f2", "#ff6b35"]} aria-hidden="true" />;
 }

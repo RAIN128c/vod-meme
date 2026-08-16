@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Brain, Crown, LockKeyhole, Sparkles } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import {
@@ -17,6 +18,13 @@ import { isUnitUnlocked, useProgressStore } from "@/store/progress-store";
 
 const posterTones = ["bg-[#ffe7a6]", "bg-[#dcd1ff]", "bg-[#c9e7ff]", "bg-[#ffefaa]", "bg-[#f0ece4]"];
 const journeyOffsets = ["xl:-translate-x-1", "xl:translate-x-3", "xl:-translate-x-2", "xl:translate-x-2", "xl:-translate-x-1"];
+const posterPaths: Record<string, string> = {
+  "cook-cooked": "/assets/units/cook-cooked.png",
+  "lock-in": "/assets/units/lock-in.png",
+  "crash-out": "/assets/units/crash-out.png",
+  ate: "/assets/units/ate.png",
+  "aint-no-way": "/assets/units/aint-no-way.png",
+};
 
 export function LearningPath() {
   const aura = useProgressStore((state) => state.aura);
@@ -81,16 +89,17 @@ function StatCard({ icon: Icon, label, value, accent, valueClassName = "text-4xl
 }
 
 function SpotlightCard({ unit }: { unit: LearningUnit }) {
-  return <section className="paper-card overflow-hidden bg-[#f3efff] p-3"><div className="torn-paper flex min-h-56 flex-col justify-between bg-[#fff8dd] p-4 text-center"><p className="text-xs font-black tracking-[.15em] text-[#f43f8f]">TRENDING</p><div><p className="display-font text-6xl leading-none text-[#211f1b]">67</p><p className="mt-1 font-black">SIX SEVEN</p><p className="mt-2 text-sm leading-5 text-[#615b6d]">{unit.subtitle}</p></div><Link href={`/lesson/${unit.id}`} className="soft-button w-full px-3">GET THE REFERENCE <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></div></section>;
+  return <section className="paper-card overflow-hidden bg-[#f3efff] p-3"><div className="torn-paper relative flex min-h-56 flex-col justify-between bg-[#fff8dd] p-4 text-center"><Image src="/assets/decor/tape-pink.png" alt="" width={174} height={43} className="pointer-events-none absolute -right-7 -top-2 h-9 w-auto rotate-[7deg] mix-blend-multiply" /><p className="text-xs font-black tracking-[.15em] text-[#f43f8f]">TRENDING</p><div><Image src="/assets/units/six-seven.png" alt="" width={118} height={158} className="mx-auto h-20 w-auto object-contain" /><p className="mt-1 font-black">SIX SEVEN</p><p className="mt-2 text-sm leading-5 text-[#615b6d]">{unit.subtitle}</p></div><Link href={`/lesson/${unit.id}`} className="soft-button w-full px-3">GET THE REFERENCE <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link></div></section>;
 }
 
 function LearningUnitCard({ unit, index, unlocked, completed, journeyOffset }: { unit: LearningUnit; index: number; unlocked: boolean; completed: boolean; journeyOffset: string }) {
   const totalAura = unit.challenges.reduce((total, challenge) => total + challenge.auraReward, 5);
+  const posterPath = posterPaths[unit.id];
 
-  return <article className={`torn-paper grid min-h-[88px] gap-2 p-3 transition sm:grid-cols-[64px_minmax(0,1fr)_auto] sm:items-center ${journeyOffset} ${unlocked ? "hover:-translate-y-0.5" : "opacity-60 grayscale-[.25]"}`}>
-    <div className={`flex h-14 items-center justify-center overflow-hidden rounded-xl ${posterTones[index]}`}><span className="display-font text-3xl">{String(index + 1).padStart(2, "0")}</span></div>
+  return <article className={`torn-paper grid min-h-[92px] gap-2 p-3 transition sm:grid-cols-[88px_minmax(0,1fr)_auto] sm:items-center ${journeyOffset} ${unlocked ? "hover:-translate-y-0.5" : "opacity-60 grayscale-[.25]"}`}>
+    <div className="relative h-[68px] w-[88px]"><Image src={posterPath} alt="" width={64} height={88} className="absolute right-0 h-[68px] w-[52px] object-contain" /><span className={`absolute left-0 top-4 flex h-8 min-w-8 items-center justify-center rounded-md px-1 text-sm font-black text-[#211f1b] ${posterTones[index]}`}>{String(index + 1).padStart(2, "0")}</span></div>
     <div><h3 className="display-font text-3xl leading-none">{unit.title}</h3><p className="mt-1 text-sm leading-5 text-[#746f67]">{unit.subtitle}</p></div>
-    <div className="flex items-center gap-2 self-start sm:self-auto">{completed ? <span className="-rotate-6 border-2 border-double border-[#7447f5] px-2 py-1 text-[10px] font-black tracking-[.1em] text-[#7447f5]">MASTERED</span> : <span className={`rounded-full px-2.5 py-1 text-[10px] font-black tracking-[.1em] ${unlocked ? "bg-[#dfff7a] text-[#344600]" : "bg-[#e3ddd4] text-[#746f67]"}`}>{unlocked ? "AVAILABLE" : "LOCKED"}</span>}{completed ? <Link href={`/lesson/${unit.id}`} aria-label={`Review ${unit.title}`} className="flex h-10 w-10 items-center justify-center rounded-full bg-[#211f1b] text-white transition hover:bg-[#7447f5]"><ArrowRight className="h-4 w-4" aria-hidden="true" /></Link> : unlocked ? <RewardPreview unit={unit} totalAura={totalAura} /> : <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e3ddd4] text-[#746f67]"><LockKeyhole className="h-4 w-4" aria-hidden="true" /></span>}</div>
+    <div className="flex items-center gap-2 self-start sm:self-auto">{completed ? <span className="stamp-mastered" aria-label="Mastered">MASTERED</span> : <span className={`rounded-full px-2.5 py-1 text-[10px] font-black tracking-[.1em] ${unlocked ? "bg-[#dfff7a] text-[#344600]" : "bg-[#e3ddd4] text-[#746f67]"}`}>{unlocked ? "AVAILABLE" : "LOCKED"}</span>}{completed ? <Link href={`/lesson/${unit.id}`} aria-label={`Review ${unit.title}`} className="flex h-10 w-10 items-center justify-center rounded-full bg-[#211f1b] text-white transition hover:bg-[#7447f5]"><ArrowRight className="h-4 w-4" aria-hidden="true" /></Link> : unlocked ? <RewardPreview unit={unit} totalAura={totalAura} /> : <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e3ddd4] text-[#746f67]"><LockKeyhole className="h-4 w-4" aria-hidden="true" /></span>}</div>
   </article>;
 }
 

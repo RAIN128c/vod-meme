@@ -12,8 +12,9 @@ The canonical product, content, UX, and technical decisions are frozen in [`VODS
 - Contextual Answer + Why + Context feedback.
 - Persisted local Aura, Braincells, rank, sequential unlocks, and idempotent rewards.
 - Deterministic, curated-dataset text search with a Search-to-Learn bridge.
+- P1.5 AI text fallback and P2 screenshot interpretation through a server-only OpenAI Responses API route.
 
-AI fallback and screenshot interpretation are intentionally not enabled in this MVP. The core product works without an API key or database.
+The core product works without an API key or database. To enable AI fallback and screenshot interpretation, add `OPENAI_API_KEY` to `.env.local`; `OPENAI_MODEL` defaults to `gpt-5-mini`.
 
 ## Run Locally
 

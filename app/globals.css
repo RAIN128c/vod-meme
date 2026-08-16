@@ -79,6 +79,20 @@ button, input { font: inherit; }
   transform: rotate(-1.5deg);
 }
 
+.stamp-mastered {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid #7447f5;
+  border-radius: 999px;
+  padding: 0.28rem 0.5rem;
+  color: #7447f5;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  transform: rotate(-7deg);
+}
+
 .brand-wordmark {
   display: inline-flex;
   flex-direction: column;
@@ -138,52 +152,6 @@ button, input { font: inherit; }
   content: "";
   transform: rotate(-4deg);
 }
-
-.portal-noise {
-  background-color: #161719;
-  background-image:
-    radial-gradient(circle at 50% 58%, rgba(113, 71, 245, 0.16), transparent 26%),
-    radial-gradient(circle at 13% 25%, rgba(244, 63, 143, 0.13), transparent 22%),
-    radial-gradient(circle at 86% 32%, rgba(184, 245, 0, 0.12), transparent 24%),
-    linear-gradient(115deg, rgba(255, 255, 255, 0.025) 25%, transparent 25% 50%, rgba(255, 255, 255, 0.02) 50% 75%, transparent 75%);
-  background-size: auto, auto, auto, 5px 5px;
-}
-
-.portal-poster {
-  position: absolute;
-  z-index: 0;
-  display: grid;
-  width: 148px;
-  min-height: 190px;
-  place-content: center;
-  overflow: hidden;
-  padding: 18px;
-  border: 1px solid rgba(236, 224, 196, 0.25);
-  border-radius: 6px;
-  background: var(--poster, #f5d94e);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-  color: #171717;
-  font-family: var(--display);
-  font-size: 2.1rem;
-  line-height: 0.85;
-  text-align: center;
-  transform: rotate(var(--tilt, 0deg));
-}
-
-.portal-poster::after {
-  position: absolute;
-  inset: 9px;
-  border: 1px dashed rgba(23, 23, 23, 0.26);
-  border-radius: 2px;
-  content: "";
-}
-
-.portal-poster--pink { --poster: #ef76a8; }
-.portal-poster--lime { --poster: #b8f500; }
-.portal-poster--purple { --poster: #a893f6; }
-.portal-poster--cream { --poster: #f6e9bd; }
-
-.mascot-shadow { filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.45)); }
 
 .lesson-topbar { border-bottom: 1px solid var(--line); background: rgba(255, 253, 248, 0.88); }
 .stat-pill { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); box-shadow: var(--shadow-soft); }
@@ -286,10 +254,6 @@ button, input { font: inherit; }
 @keyframes feedback-pop { from { opacity: 0; transform: scale(0.5) rotate(-18deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
 @keyframes chat-reply-arrive { from { opacity: 0; transform: translateX(18px) scale(0.92); } to { opacity: 1; transform: translateX(0) scale(1); } }
 @keyframes typing-dot { 0%, 80%, 100% { opacity: 0.3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
-
-@media (max-width: 1023px) {
-  .portal-poster { display: none; }
-}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
